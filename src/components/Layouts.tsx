@@ -1,4 +1,4 @@
-import { Home, GraduationCap, Briefcase, Mail, Github, Linkedin, Code2, Smartphone, FileText, Star, Award, Calendar, MapPin, Phone, Send, Brain, Users, Clock, Trophy, ArrowRight, Shield, BarChart3, Play, X, Maximize2 } from 'lucide-react';
+import { Home, GraduationCap, Briefcase, Mail, Github, Linkedin, Code2, Smartphone, FileText, Star, Award, Calendar, MapPin, Phone, Send, Brain, Users, Clock, Trophy, ArrowRight, Shield, BarChart3, Play, X, Maximize2, Download } from 'lucide-react';
 import { useState, useRef, useEffect } from 'react';
 import emailjs from 'emailjs-com';
 
@@ -9,18 +9,70 @@ const EMAILJS_CONFIG = {
   PUBLIC_KEY: 'qWx4Fim3969V53pf4'
 };
 
-// Fonction utilitaire pour les chemins absolus
-const getAbsolutePath = (path: string) => {
-  if (path.startsWith('http')) return path;
-  
-  // En production, utilise le chemin absolu depuis la racine du domaine
-  if (process.env.NODE_ENV === 'production') {
-    return path.startsWith('/') ? path : `/${path}`;
+// URLs des médias - AVEC LES VRAIS LIENS GITHUB RAW
+const MEDIA_BASE_URL = 'https://raw.githubusercontent.com/yaelaya/portfolio/main/docs';
+
+// Projects data avec URLs GitHub Raw
+const projects = [
+  {
+    title: 'DrugTrace - Système Blockchain',
+    description: 'Système de traçabilité blockchain pour produits pharmaceutiques avec publication en cours dans SoftwareX. Solution innovante pour lutter contre la contrefaçon des médicaments.',
+    tags: ['Blockchain', 'Smart Contracts', 'Web3', 'React', 'Node.js'],
+    github: 'https://github.com/ayoubharati/medProject',
+    video: `${MEDIA_BASE_URL}/Blockchain/blockchain.mp4`,
+    featured: true,
+    status: 'En cours de publication',
+    period: '02/2025-05/2025',
+    icon: Shield,
+    color: 'from-blue-500 to-indigo-500'
+  },
+  {
+    title: 'DataIN - Plateforme Data Science',
+    description: 'Solution intégrée d\'exploration de données par IA et visualisation interactive développée durant mon stage au Haut-Commissariat au Plan. Analyse de données massives avec machine learning.',
+    tags: ['Python', 'Machine Learning', 'Data Visualization', 'React', 'FastAPI'],
+    github: 'https://github.com/yaelaya/DataIN',
+    video: `${MEDIA_BASE_URL}/DataIN/datain_1.mp4`,
+    featured: true,
+    period: 'Stage HCP - 06/2025-09/2025',
+    icon: BarChart3,
+    color: 'from-purple-500 to-blue-500'
+  },
+  {
+    title: 'Applications Mobiles Android',
+    description: 'Développement d\'applications Android natives avec intégration d\'APIs REST, GraphQL et SOAP. Architecture MVVM et tests unitaires complets.',
+    tags: ['Java', 'Android', 'Retrofit', 'GraphQL', 'REST', 'SOAP'],
+    github: 'https://github.com/miskaraminaa/AssistDoc',
+    period: 'Projet ENSA - 10/2024-12/2024',
+    icon: Smartphone,
+    color: 'from-green-600 to-emerald-500'
+  },
+  {
+    title: 'Analyse des Retards de Vols - Business Intelligence',
+    description: 'Chaîne BI complète avec ETL (Kettle) et tableaux de bord interactifs (Google Data Studio). Analyse prédictive des causes de retards aériens.',
+    tags: ['ETL', 'Business Intelligence', 'Data Studio', 'Kettle', 'Analyse', 'Data Visualization'],
+    images: [
+      `${MEDIA_BASE_URL}/BI/1.jpg`,
+      `${MEDIA_BASE_URL}/BI/2.jpg`,
+      `${MEDIA_BASE_URL}/BI/3.jpg`,
+      `${MEDIA_BASE_URL}/BI/4.jpg`,
+      `${MEDIA_BASE_URL}/BI/5.jpg`,
+      `${MEDIA_BASE_URL}/BI/6.jpg`
+    ],
+    period: 'Projet ENSA - 10/2024-12/2024',
+    icon: BarChart3,
+    color: 'from-indigo-500 to-purple-500'
+  },
+  {
+    title: 'Application Web JEE - Gestion des Examens',
+    description: 'Application web conçue pour gérer les surveillances des examens au sein d\'une université. Développement CRUD avec Spring Boot et Spring Data en Java EE.',
+    tags: ['Spring Boot', 'Java EE', 'Spring Data', 'JPA', 'REST API', 'CRUD'],
+    github: 'https://github.com/YounesAO/ExamSessionManger',
+    video: `${MEDIA_BASE_URL}/JEE/ExamSession.mp4`,
+    period: 'Projet ENSA - 11/2024-01/2025',
+    icon: Code2,
+    color: 'from-red-500 to-pink-500'
   }
-  
-  // En développement, utilise le chemin normal
-  return path;
-};
+];
 
 export default function Layouts() {
   // Education data
@@ -60,68 +112,6 @@ export default function Layouts() {
         'Spécialisation mathématiques et sciences physiques',
         'Excellentes bases scientifiques'
       ]
-    }
-  ];
-
-  // Projects data avec chemins absolus
-  const projects = [
-    {
-      title: 'DrugTrace - Système Blockchain',
-      description: 'Système de traçabilité blockchain pour produits pharmaceutiques avec publication en cours dans SoftwareX. Solution innovante pour lutter contre la contrefaçon des médicaments.',
-      tags: ['Blockchain', 'Smart Contracts', 'Web3', 'React', 'Node.js'],
-      github: 'https://github.com/ayoubharati/medProject',
-      video: getAbsolutePath('/docs/Blockchain/blockchain.mp4'),
-      featured: true,
-      status: 'En cours de publication',
-      period: '02/2025-05/2025',
-      icon: Shield,
-      color: 'from-blue-500 to-indigo-500'
-    },
-    {
-      title: 'DataIN - Plateforme Data Science',
-      description: 'Solution intégrée d\'exploration de données par IA et visualisation interactive développée durant mon stage au Haut-Commissariat au Plan. Analyse de données massives avec machine learning.',
-      tags: ['Python', 'Machine Learning', 'Data Visualization', 'React', 'FastAPI'],
-      github: 'https://github.com/yaelaya/DataIN',
-      video: getAbsolutePath('/docs/DataIN/datain_1.mp4'),
-      featured: true,
-      period: 'Stage HCP - 06/2025-09/2025',
-      icon: BarChart3,
-      color: 'from-purple-500 to-blue-500'
-    },
-    {
-      title: 'Applications Mobiles Android',
-      description: 'Développement d\'applications Android natives avec intégration d\'APIs REST, GraphQL et SOAP. Architecture MVVM et tests unitaires complets.',
-      tags: ['Java', 'Android', 'Retrofit', 'GraphQL', 'REST', 'SOAP'],
-      github: 'https://github.com/miskaraminaa/AssistDoc',
-      period: 'Projet ENSA - 10/2024-12/2024',
-      icon: Smartphone,
-      color: 'from-green-600 to-emerald-500'
-    },
-    {
-      title: 'Analyse des Retards de Vols - Business Intelligence',
-      description: 'Chaîne BI complète avec ETL (Kettle) et tableaux de bord interactifs (Google Data Studio). Analyse prédictive des causes de retards aériens.',
-      tags: ['ETL', 'Business Intelligence', 'Data Studio', 'Kettle', 'Analyse', 'Data Visualization'],
-      images: [
-        getAbsolutePath('/docs/BI/1.jpg'),
-        getAbsolutePath('/docs/BI/2.jpg'),
-        getAbsolutePath('/docs/BI/3.jpg'),
-        getAbsolutePath('/docs/BI/4.jpg'),
-        getAbsolutePath('/docs/BI/5.jpg'),
-        getAbsolutePath('/docs/BI/6.jpg')
-      ],
-      period: 'Projet ENSA - 10/2024-12/2024',
-      icon: BarChart3,
-      color: 'from-indigo-500 to-purple-500'
-    },
-    {
-      title: 'Application Web JEE - Gestion des Examens',
-      description: 'Application web conçue pour gérer les surveillances des examens au sein d\'une université. Développement CRUD avec Spring Boot et Spring Data en Java EE.',
-      tags: ['Spring Boot', 'Java EE', 'Spring Data', 'JPA', 'REST API', 'CRUD'],
-      github: 'https://github.com/YounesAO/ExamSessionManger',
-      video: getAbsolutePath('/docs/JEE/ExamSession.mp4'),
-      period: 'Projet ENSA - 11/2024-01/2025',
-      icon: Code2,
-      color: 'from-red-500 to-pink-500'
     }
   ];
 
@@ -253,9 +243,124 @@ export default function Layouts() {
     };
   }, [zoomedMedia]);
 
-  // Composant pour le slider d'images avec zoom
-  const ImageSlider = ({ images }: { images: string[] }) => {
+  // Composant VideoPlayer amélioré avec fallback
+  const VideoPlayer = ({ videoUrl}: { videoUrl: string; title: string }) => {
+    const [isPlaying, setIsPlaying] = useState(false);
+    const [hasError, setHasError] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
+    const videoRef = useRef<HTMLVideoElement>(null);
+
+    useEffect(() => {
+      const video = videoRef.current;
+      if (!video) return;
+
+      const handleLoadStart = () => setIsLoading(true);
+      const handleCanPlay = () => setIsLoading(false);
+      const handleError = () => {
+        setIsLoading(false);
+        setHasError(true);
+        console.error(`Erreur de chargement vidéo: ${videoUrl}`);
+      };
+
+      video.addEventListener('loadstart', handleLoadStart);
+      video.addEventListener('canplay', handleCanPlay);
+      video.addEventListener('error', handleError);
+
+      return () => {
+        video.removeEventListener('loadstart', handleLoadStart);
+        video.removeEventListener('canplay', handleCanPlay);
+        video.removeEventListener('error', handleError);
+      };
+    }, [videoUrl]);
+
+    const handlePlay = () => setIsPlaying(true);
+    const handleVideoClick = (e: React.MouseEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
+      openZoom('video', videoUrl);
+    };
+
+    if (hasError) {
+      return (
+        <div className="h-48 mb-4 rounded-lg bg-slate-100 flex flex-col items-center justify-center text-slate-500 p-4">
+          <div className="text-center">
+            <Play className="w-8 h-8 mx-auto mb-2 opacity-50" />
+            <p className="text-sm font-medium mb-2">Vidéo non disponible</p>
+            <p className="text-xs mb-3">Problème de chargement</p>
+            <a
+              href={videoUrl}
+              download
+              className="inline-flex items-center gap-1 px-3 py-1 bg-slate-200 rounded text-xs hover:bg-slate-300 transition-colors"
+            >
+              <Download className="w-3 h-3" />
+              Télécharger la vidéo
+            </a>
+          </div>
+        </div>
+      );
+    }
+
+    return (
+      <div className="relative h-48 mb-4 rounded-lg overflow-hidden bg-slate-100 group">
+        {isLoading && (
+          <div className="absolute inset-0 flex items-center justify-center bg-slate-200">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-slate-600"></div>
+          </div>
+        )}
+        
+        <video
+          ref={videoRef}
+          className="w-full h-full object-cover cursor-pointer"
+          controls
+          preload="metadata"
+          onPlay={handlePlay}
+          onClick={handleVideoClick}
+        >
+          <source src={videoUrl} type="video/mp4" />
+          Votre navigateur ne supporte pas la lecture de vidéos.
+        </video>
+        
+        <button
+          onClick={handleVideoClick}
+          className="absolute top-2 right-2 bg-black/50 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 hover:bg-black/70"
+        >
+          <Maximize2 className="w-4 h-4" />
+        </button>
+
+        {!isPlaying && !isLoading && (
+          <div 
+            className="absolute inset-0 flex items-center justify-center bg-black/20 cursor-pointer"
+            onClick={handleVideoClick}
+          >
+            <div className="bg-black/50 rounded-full p-3 backdrop-blur-sm">
+              <Play className="w-6 h-6 text-white fill-current" />
+            </div>
+          </div>
+        )}
+      </div>
+    );
+  };
+
+  // Composant ImageSlider amélioré
+  const ImageSlider = ({ images, title }: { images: string[]; title: string }) => {
     const [currentIndex, setCurrentIndex] = useState(0);
+    const [loadedImages, setLoadedImages] = useState<boolean[]>([]);
+
+    useEffect(() => {
+      setLoadedImages(new Array(images.length).fill(false));
+    }, [images]);
+
+    const handleImageLoad = (index: number) => {
+      setLoadedImages(prev => {
+        const newLoaded = [...prev];
+        newLoaded[index] = true;
+        return newLoaded;
+      });
+    };
+
+    const handleImageError = (index: number) => {
+      console.error(`Erreur de chargement image: ${images[index]}`);
+    };
 
     const nextImage = () => {
       setCurrentIndex((prevIndex) => 
@@ -271,17 +376,21 @@ export default function Layouts() {
 
     return (
       <div className="relative h-48 mb-4 rounded-lg overflow-hidden bg-slate-100 group">
+        {!loadedImages[currentIndex] && (
+          <div className="absolute inset-0 flex items-center justify-center bg-slate-200">
+            <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-slate-600"></div>
+          </div>
+        )}
+        
         <img
           src={images[currentIndex]}
-          alt={`Slide ${currentIndex + 1}`}
+          alt={`${title} - Slide ${currentIndex + 1}`}
           className="w-full h-full object-contain cursor-pointer transition-transform duration-300 group-hover:scale-105"
           onClick={() => openZoom('image', images[currentIndex], currentIndex)}
-          onError={(e) => {
-            (e.target as HTMLImageElement).src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23f1f5f9'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-size='12' fill='%2394a3b8'%3EImage non chargée%3C/text%3E%3C/svg%3E";
-          }}
+          onLoad={() => handleImageLoad(currentIndex)}
+          onError={() => handleImageError(currentIndex)}
         />
         
-        {/* Bouton zoom */}
         <button
           onClick={() => openZoom('image', images[currentIndex], currentIndex)}
           className="absolute top-2 right-2 bg-black/50 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 hover:bg-black/70"
@@ -316,76 +425,6 @@ export default function Layouts() {
               ))}
             </div>
           </>
-        )}
-      </div>
-    );
-  };
-
-  // Composant pour la vidéo avec gestion d'erreurs améliorée
-  const VideoPlayer = ({ videoUrl }: { videoUrl: string }) => {
-    const [isPlaying, setIsPlaying] = useState(false);
-    const [hasError, setHasError] = useState(false);
-    const videoRef = useRef<HTMLVideoElement>(null);
-
-    const handlePlay = () => {
-      setIsPlaying(true);
-    };
-
-    const handleVideoClick = (e: React.MouseEvent) => {
-      e.preventDefault();
-      e.stopPropagation();
-      openZoom('video', videoUrl);
-    };
-
-    const handleError = () => {
-      console.error(`La vidéo n'a pas pu être chargée: ${videoUrl}`);
-      setHasError(true);
-    };
-
-    if (hasError) {
-      return (
-        <div className="h-48 mb-4 rounded-lg bg-slate-100 flex flex-col items-center justify-center text-slate-500">
-          <div className="text-center">
-            <Play className="w-8 h-8 mx-auto mb-2 opacity-50" />
-            <p className="text-sm">Vidéo non disponible</p>
-            <p className="text-xs mt-1">Problème de chargement</p>
-          </div>
-        </div>
-      );
-    }
-
-    return (
-      <div className="relative h-48 mb-4 rounded-lg overflow-hidden bg-slate-100 group">
-        <video
-          ref={videoRef}
-          className="w-full h-full object-cover cursor-pointer"
-          controls
-          preload="metadata"
-          onPlay={handlePlay}
-          onClick={handleVideoClick}
-          onError={handleError}
-        >
-          <source src={videoUrl} type="video/mp4" />
-          Votre navigateur ne supporte pas la lecture de vidéos.
-        </video>
-        
-        {/* Bouton zoom pour vidéo */}
-        <button
-          onClick={handleVideoClick}
-          className="absolute top-2 right-2 bg-black/50 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 hover:bg-black/70"
-        >
-          <Maximize2 className="w-4 h-4" />
-        </button>
-
-        {!isPlaying && (
-          <div 
-            className="absolute inset-0 flex items-center justify-center bg-black/20 cursor-pointer"
-            onClick={handleVideoClick}
-          >
-            <div className="bg-black/50 rounded-full p-3 backdrop-blur-sm">
-              <Play className="w-6 h-6 text-white fill-current" />
-            </div>
-          </div>
         )}
       </div>
     );
@@ -549,7 +588,7 @@ export default function Layouts() {
 
             <div className="flex items-center gap-3">
               <a
-                href={getAbsolutePath('/docs/CV.pdf')}
+                href={`${MEDIA_BASE_URL}/CV.pdf`}
                 download="CV_Aya_EL_ABIDI.pdf"
                 className="flex items-center gap-2 px-4 py-2 bg-slate-800 text-white rounded-lg hover:bg-slate-700 transition-colors text-sm font-medium"
               >
@@ -769,11 +808,11 @@ export default function Layouts() {
 
                   {/* Affichage des médias */}
                   {project.video && (
-                    <VideoPlayer videoUrl={project.video} />
+                    <VideoPlayer videoUrl={project.video} title={project.title} />
                   )}
                   
                   {project.images && (
-                    <ImageSlider images={project.images} />
+                    <ImageSlider images={project.images} title={project.title} />
                   )}
 
                   <p className="text-slate-600 mb-6 leading-relaxed">
@@ -990,7 +1029,7 @@ export default function Layouts() {
               <Github className="w-5 h-5" />
             </a>
             <a
-              href="https://linkedin.com/in/elabidi-aya"
+              href="https://www.linkedin.com/in/elabidi-aya/"
               target="_blank"
               rel="noopener noreferrer"
               className="p-3 rounded-lg bg-slate-700 hover:bg-slate-600 transition-colors"
