@@ -1,4 +1,4 @@
-import { Home, GraduationCap, Briefcase, Mail, Github, Linkedin, Code2, Database, Cloud, Smartphone, FileText, ExternalLink, Star, Award, Calendar, MapPin, Phone, Send, Brain, Users, Clock, Trophy, Languages, BookOpen, ArrowRight, Shield, BarChart3, Building, Cpu, Play, Image, X, Maximize2 } from 'lucide-react';
+import { Home, GraduationCap, Briefcase, Mail, Github, Linkedin, Code2, Smartphone, FileText, Star, Award, Calendar, MapPin, Phone, Send, Brain, Users, Clock, Trophy, ArrowRight, Shield, BarChart3, Building, Cpu, Play, X, Maximize2 } from 'lucide-react';
 import { useState, useRef, useEffect } from 'react';
 import emailjs from 'emailjs-com';
 
@@ -112,12 +112,6 @@ export default function Layouts() {
     }
   ];
 
-  // Skills data
-  const skills = {
-    frontend: ['React', 'TypeScript', 'Next.js', 'Tailwind', 'JavaScript'],
-    backend: ['Node.js', 'Spring Boot', 'PostgreSQL', 'Python', 'Java EE'],
-    tools: ['Git', 'Docker', 'Figma', 'VS Code', 'Postman']
-  };
 
   // Stats data
   const stats = [
