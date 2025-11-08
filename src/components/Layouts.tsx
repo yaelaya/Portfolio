@@ -2,11 +2,24 @@ import { Home, GraduationCap, Briefcase, Mail, Github, Linkedin, Code2, Smartpho
 import { useState, useRef, useEffect } from 'react';
 import emailjs from 'emailjs-com';
 
-// Configuration EmailJS - REMPLACEZ AVEC VOS VRAIES CLÉS
+// Configuration EmailJS
 const EMAILJS_CONFIG = {
-  SERVICE_ID: 'service_elabidi_aya', // À remplacer
-  TEMPLATE_ID: 'template_contact', // À remplacer
-  PUBLIC_KEY: 'qWx4Fim3969V53pf4' // À remplacer
+  SERVICE_ID: 'service_elabidi_aya',
+  TEMPLATE_ID: 'template_contact',
+  PUBLIC_KEY: 'qWx4Fim3969V53pf4'
+};
+
+// Fonction utilitaire pour les chemins absolus
+const getAbsolutePath = (path: string) => {
+  if (path.startsWith('http')) return path;
+  
+  // En production, utilise le chemin absolu depuis la racine du domaine
+  if (process.env.NODE_ENV === 'production') {
+    return path.startsWith('/') ? path : `/${path}`;
+  }
+  
+  // En développement, utilise le chemin normal
+  return path;
 };
 
 export default function Layouts() {
@@ -50,14 +63,14 @@ export default function Layouts() {
     }
   ];
 
-  // Projects data
+  // Projects data avec chemins absolus
   const projects = [
     {
       title: 'DrugTrace - Système Blockchain',
       description: 'Système de traçabilité blockchain pour produits pharmaceutiques avec publication en cours dans SoftwareX. Solution innovante pour lutter contre la contrefaçon des médicaments.',
       tags: ['Blockchain', 'Smart Contracts', 'Web3', 'React', 'Node.js'],
       github: 'https://github.com/ayoubharati/medProject',
-      video: '/docs/Blockchain/blockchain.mp4',
+      video: getAbsolutePath('/docs/Blockchain/blockchain.mp4'),
       featured: true,
       status: 'En cours de publication',
       period: '02/2025-05/2025',
@@ -69,7 +82,7 @@ export default function Layouts() {
       description: 'Solution intégrée d\'exploration de données par IA et visualisation interactive développée durant mon stage au Haut-Commissariat au Plan. Analyse de données massives avec machine learning.',
       tags: ['Python', 'Machine Learning', 'Data Visualization', 'React', 'FastAPI'],
       github: 'https://github.com/yaelaya/DataIN',
-      video: '/docs/DataIN/datain_1.mp4',
+      video: getAbsolutePath('/docs/DataIN/datain_1.mp4'),
       featured: true,
       period: 'Stage HCP - 06/2025-09/2025',
       icon: BarChart3,
@@ -89,12 +102,12 @@ export default function Layouts() {
       description: 'Chaîne BI complète avec ETL (Kettle) et tableaux de bord interactifs (Google Data Studio). Analyse prédictive des causes de retards aériens.',
       tags: ['ETL', 'Business Intelligence', 'Data Studio', 'Kettle', 'Analyse', 'Data Visualization'],
       images: [
-        '/docs/BI/1.jpg',
-        '/docs/BI/2.jpg',
-        '/docs/BI/3.jpg',
-        '/docs/BI/4.jpg',
-        '/docs/BI/5.jpg',
-        '/docs/BI/6.jpg'
+        getAbsolutePath('/docs/BI/1.jpg'),
+        getAbsolutePath('/docs/BI/2.jpg'),
+        getAbsolutePath('/docs/BI/3.jpg'),
+        getAbsolutePath('/docs/BI/4.jpg'),
+        getAbsolutePath('/docs/BI/5.jpg'),
+        getAbsolutePath('/docs/BI/6.jpg')
       ],
       period: 'Projet ENSA - 10/2024-12/2024',
       icon: BarChart3,
@@ -105,13 +118,12 @@ export default function Layouts() {
       description: 'Application web conçue pour gérer les surveillances des examens au sein d\'une université. Développement CRUD avec Spring Boot et Spring Data en Java EE.',
       tags: ['Spring Boot', 'Java EE', 'Spring Data', 'JPA', 'REST API', 'CRUD'],
       github: 'https://github.com/YounesAO/ExamSessionManger',
-      video: '/docs/JEE/ExamSession.mp4',
+      video: getAbsolutePath('/docs/JEE/ExamSession.mp4'),
       period: 'Projet ENSA - 11/2024-01/2025',
       icon: Code2,
       color: 'from-red-500 to-pink-500'
     }
   ];
-
 
   // Stats data
   const stats = [
@@ -165,7 +177,6 @@ export default function Layouts() {
       setEmailStatus('success');
       formRef.current?.reset();
       
-      // Reset du statut après 5 secondes
       setTimeout(() => setEmailStatus('idle'), 5000);
     } catch (error) {
       console.error('Erreur envoi email:', error);
@@ -310,9 +321,10 @@ export default function Layouts() {
     );
   };
 
-  // Composant pour la vidéo avec zoom
+  // Composant pour la vidéo avec gestion d'erreurs améliorée
   const VideoPlayer = ({ videoUrl }: { videoUrl: string }) => {
     const [isPlaying, setIsPlaying] = useState(false);
+    const [hasError, setHasError] = useState(false);
     const videoRef = useRef<HTMLVideoElement>(null);
 
     const handlePlay = () => {
@@ -325,6 +337,23 @@ export default function Layouts() {
       openZoom('video', videoUrl);
     };
 
+    const handleError = () => {
+      console.error(`La vidéo n'a pas pu être chargée: ${videoUrl}`);
+      setHasError(true);
+    };
+
+    if (hasError) {
+      return (
+        <div className="h-48 mb-4 rounded-lg bg-slate-100 flex flex-col items-center justify-center text-slate-500">
+          <div className="text-center">
+            <Play className="w-8 h-8 mx-auto mb-2 opacity-50" />
+            <p className="text-sm">Vidéo non disponible</p>
+            <p className="text-xs mt-1">Problème de chargement</p>
+          </div>
+        </div>
+      );
+    }
+
     return (
       <div className="relative h-48 mb-4 rounded-lg overflow-hidden bg-slate-100 group">
         <video
@@ -334,6 +363,7 @@ export default function Layouts() {
           preload="metadata"
           onPlay={handlePlay}
           onClick={handleVideoClick}
+          onError={handleError}
         >
           <source src={videoUrl} type="video/mp4" />
           Votre navigateur ne supporte pas la lecture de vidéos.
@@ -519,7 +549,7 @@ export default function Layouts() {
 
             <div className="flex items-center gap-3">
               <a
-                href="/docs/CV.pdf"
+                href={getAbsolutePath('/docs/CV.pdf')}
                 download="CV_Aya_EL_ABIDI.pdf"
                 className="flex items-center gap-2 px-4 py-2 bg-slate-800 text-white rounded-lg hover:bg-slate-700 transition-colors text-sm font-medium"
               >
@@ -960,7 +990,7 @@ export default function Layouts() {
               <Github className="w-5 h-5" />
             </a>
             <a
-              href="https://linkedin.com"
+              href="https://linkedin.com/in/elabidi-aya"
               target="_blank"
               rel="noopener noreferrer"
               className="p-3 rounded-lg bg-slate-700 hover:bg-slate-600 transition-colors"
