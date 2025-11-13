@@ -20,7 +20,6 @@ const projects = [
     tags: ['Blockchain', 'Smart Contracts', 'Web3', 'React', 'Node.js'],
     github: 'https://github.com/ayoubharati/medProject',
     video: `${MEDIA_BASE_URL}/Blockchain/blockchain.mp4`,
-    featured: true,
     status: 'En cours de publication',
     period: '02/2025-05/2025',
     icon: Shield,
@@ -32,7 +31,6 @@ const projects = [
     tags: ['Python', 'Machine Learning', 'Data Visualization', 'React', 'FastAPI'],
     github: 'https://github.com/yaelaya/DataIN',
     video: `${MEDIA_BASE_URL}/DataIN/datain_1.mp4`,
-    featured: true,
     period: 'Stage HCP - 06/2025-09/2025',
     icon: BarChart3,
     color: 'from-purple-500 to-blue-500'
@@ -42,8 +40,10 @@ const projects = [
     description: 'Analyse complète d\'un dataset médical avec techniques avancées de data mining. Développement de modèles prédictifs pour identifier les facteurs de risque du diabète, avec Random Forest atteignant un F1-score de 0.8845.',
     tags: ['Python', 'Machine Learning', 'Data Mining', 'Random Forest', 'XGBoost', 'Data Analysis', 'CRISP-DM'],
     github: 'https://github.com/yaelaya/diabetes-prediction-ml',
-    report: `${MEDIA_BASE_URL}/diabetes/Rapport_NLP.pdf`,
-    featured: true,
+    images: [
+      `${MEDIA_BASE_URL}/NLP/1.jpeg`,
+      `${MEDIA_BASE_URL}/NLP/2.jpeg`
+    ],
     status: 'Projet Académique Complet',
     period: 'Projet Data Mining - 2025',
     icon: Brain,
